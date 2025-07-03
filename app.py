@@ -46,7 +46,7 @@ def main():
 
     # Generate a boxplot using altair 
 
-    boxplot = alt.Chart(df).mark_boxplot(extent='min-max').encode(
+    boxplot = alt.Chart(filtered_data).mark_boxplot(extent='min-max').encode(
         x='treatment',
         y=y_variable
     ).interactive()
