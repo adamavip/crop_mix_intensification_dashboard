@@ -1,6 +1,9 @@
 import pandas as pd
 import streamlit as st
-import altair as alt
+import plotly.express as px
+import folium
+from streamlit_folium import st_folium
+
 
 # Load the data
 @st.cache_data
@@ -38,21 +41,78 @@ def main():
     village = st.sidebar.selectbox("Select Village", filtered_data['village'].unique())
     # Filter data based on selected village
     filtered_data = filtered_data[filtered_data['village'] == village]
-    st.write(f"Data for {crop} in {year} with {trial_type} in {village}:")
-    st.dataframe(filtered_data)
+    
 
     # Select y variable for the boxplot
-    y_variable = st.selectbox("Select Y Variable", ['grain_kg_ha.trt','stalk_kg_ha.trt', 'stand_pl_ha.trt'])
+    y_variable = st.selectbox("Select Y Variable", ['grain_kg_ha','stalk_kg_ha', 'stand_pl_ha'])
 
-    # Generate a boxplot using altair 
+    # Generate boxplot using seaborn
+    # Optional: orientation toggle
+    orientation = st.sidebar.radio("Boxplot Orientation:",["Vertical","Horizontal"])
 
-    boxplot = alt.Chart(filtered_data).mark_boxplot(extent='min-max').encode(
-        x='treatment',
-        y=y_variable
-    ).interactive()
+    # Build interactive boxplot using Plotly
+    if orientation == "Vertical":
+        fig = px.box(
+            filtered_data,
+            x='treatment',
+            y=y_variable,
+            color='treatment',
+            color_discrete_sequence=px.colors.sequential.Viridis,
+            points="all",
+            hover_data=filtered_data.columns
+        )
+    else:
+        fig = px.box(
+            filtered_data,
+            x=y_variable,
+            y='treatment',
+            color='treatment',
+            color_discrete_sequence=px.colors.sequential.Viridis,
+            orientation="h",
+            points="all",
+            hover_data=filtered_data.columns
+        )
 
-    # Display the boxplot
-    st.altair_chart(boxplot, use_container_width=True)
+    # Adjust individual box widths (in categorical units)
+    fig.update_traces(width=0.6)
+
+    fig.update_layout(
+        title=f"Interactive Boxplot of {y_variable} by Treatment",
+        boxmode="group"
+    )
+
+    # Display in Streamlit
+    st.plotly_chart(fig, use_container_width=True)
+
+    # display the data
+    if st.sidebar.checkbox("Show raw data"):
+        st.write(f"Data for {crop} in {year} with {trial_type} in {village}:")
+        # Display the filtered data
+        st.dataframe(filtered_data)
+    
+    # Display the map
+    # Display map if latitude/longitude present and box checked
+    if st.sidebar.checkbox("Show the map"):
+        if "latitude" in filtered_data.columns and "longitude" in filtered_data.columns:
+            map_data = filtered_data.dropna(subset=["latitude", "longitude"]).drop_duplicates()
+            if not map_data.empty:
+                # Initialize folium map at mean coordinate
+                center = [map_data["latitude"].mean(), map_data["longitude"].mean()]
+                m = folium.Map(location=center, zoom_start=2)
+                for _, row in map_data.iterrows():
+                    folium.CircleMarker(
+                        location=[row["latitude"], row["longitude"]],
+                        radius=5,
+                        color="blue",
+                        fill=True,
+                        fill_opacity=0.7
+                        #popup=f"{category_feature}: {row[category_feature]}\n{numeric_feature}: {row[numeric_feature]}"
+                    ).add_to(m)
+                st_folium(m, width=700, height=500)
+            else:
+                st.warning("No valid latitude/longitude data to display.")  
+        else:
+            st.warning("Latitude/longitude columns not found in data.")
 
     
 

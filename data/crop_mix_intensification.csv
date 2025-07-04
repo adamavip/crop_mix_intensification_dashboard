@@ -1,4 +1,4 @@
-year,village,farmer,crop,trial_type,treatment,stand_pl_ha.trt,stalk_kg_ha.trt,grain_kg_ha.trt,latitude,longitude
+year,village,farmer,crop,trial_type,treatment,stand_pl_ha,stalk_kg_ha,grain_kg_ha,latitude,longitude
 2020,chinjala,austern.mwanza,legume,crop.mix,ca.2rowintercrop,48888.88889,146.3519345,102.4023729,-13.64179,32.51138
 2020,chinjala,austern.mwanza,legume,crop.mix,ca.4rowintercrop,259629.6296,372.6130371,408.5527191,-13.64179,32.51138
 2020,chinjala,austern.mwanza,legume,crop.mix,ca.intercrop,68307.69231,91.84991101,128.043097,-13.64179,32.51138
@@ -2719,7 +2719,7 @@ year,village,farmer,crop,trial_type,treatment,stand_pl_ha.trt,stalk_kg_ha.trt,gr
 2023,nyanje.1,amon.mwale,maize,crop.mix,cp.intercrop,49218.75,6296.148947,4520.674242,-14.42506,31.84368
 2023,nyanje.1,amon.mwale,maize,crop.mix,cp.sole,46570.84189,7038.39463,2524.523859,-14.42506,31.84368
 2023,nyanje.1,davidson.banda,legume,crop.mix,ca.2rowintercrop,182334.7746,219.2888026,457.3812741,-14.4249,31.8442
-2023,nyanje.1,davidson.banda,legume,crop.mix,ca.4rowintercrop,4e+05,336.5051982,308.7206326,-14.4249,31.8442
+2023,nyanje.1,davidson.banda,legume,crop.mix,ca.4rowintercrop,4.00E+05,336.5051982,308.7206326,-14.4249,31.8442
 2023,nyanje.1,davidson.banda,legume,crop.mix,ca.intercrop,124672.1311,310.4508197,421.4473068,-14.4249,31.8442
 2023,nyanje.1,davidson.banda,legume,crop.mix,ca.rotation,473042.836,561.7188388,924.1306875,-14.4249,31.8442
 2023,nyanje.1,davidson.banda,legume,crop.mix,ca.sole,0,0,0,-14.4249,31.8442
