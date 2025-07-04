@@ -1,6 +1,5 @@
 streamlit==1.46.1
 pandas==2.2.2
-altair==5.0.1
 folium==0.20.0
 streamlit_folium==0.25.0
 pyarrow==14.0.2
